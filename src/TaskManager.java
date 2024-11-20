@@ -71,8 +71,8 @@ public class TaskManager {
     }
 
 
-    public void addSubTask(SubTask newSubTask, Epic parentEpic) {
-        if (newSubTask == null || parentEpic == null) {
+    public void addSubTask(SubTask newSubTask) {
+        if (newSubTask == null) {
             return;
         }
         newSubTask.setId(nextTaskId);
@@ -80,6 +80,7 @@ public class TaskManager {
         nextTaskId++;
 
         // связываем эпик с подзадачей и подзадачу с эпиком
+        Epic parentEpic = getEpicById(newSubTask.getParentEpicId());
         parentEpic.addTask(newSubTask.getId());
         newSubTask.setParentEpicId(parentEpic.getId());
 
@@ -89,21 +90,35 @@ public class TaskManager {
 
 
     //    e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    public void updateTask(Task task) {
+    public boolean updateTask(Task task) {
+        if (!tasks.containsKey(task.getId())) {
+            return false;
+        }
         tasks.put(task.getId(), task);
+        return true;
     }
-    public void updateEpic(Epic epic) {
+
+    public boolean updateEpic(Epic epic) {
+        if (!epics.containsKey(epic.getId())) {
+            return false;
+        }
         epics.put(epic.getId(), epic);
 
         // обновляем статус эпика так как задачи в нем могут повлиять на статус эпика
         refreshEpicStatus(epic);
-
+        return true;
     }
-    public void updateSubTask(SubTask subTask) {
+
+    public boolean updateSubTask(SubTask subTask) {
+        if (!subTasks.containsKey(subTask.getId())) {
+            return false;
+        }
         subTasks.put(subTask.getId(), subTask);
 
         // обновляем статус родительского эпика
         refreshEpicStatus(epics.get(subTask.getParentEpicId()));
+
+        return true;
     }
 
 
@@ -137,10 +152,12 @@ public class TaskManager {
 
 
     // a. Получение списка всех подзадач определённого эпика.
-    public ArrayList<SubTask> getEpicSubTasks(Epic epic) {
+    public ArrayList<SubTask> getSubtaskByEpic(int epicId) {
+        Epic epic = getEpicById(epicId);
         ArrayList<SubTask> epicSubTasks = new ArrayList<>();
-        for (Integer id: epic.getSubTasksIds()
-             ) {
+        for (
+                Integer id : epic.getSubTasksIds()
+        ) {
             epicSubTasks.add(getSubTaskById(id));
         }
 
