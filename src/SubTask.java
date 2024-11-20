@@ -1,22 +1,21 @@
 public class SubTask extends Task {
 
 
+    private Integer parentEpicId;
 
-    private Epic parentEpic;
-
-    public SubTask(String title, String description) {
-        super(title, description);
+    public SubTask(String title, String description, TaskStatus status, Integer parentEpicId) {
+        super(title, description, status);
+        this.parentEpicId = parentEpicId;
     }
 
 
-    public Epic getParentEpic() {
-        return parentEpic;
+    public Integer getParentEpicId() {
+        return parentEpicId;
     }
 
     @Override
     void setStatus(TaskStatus status) {
         super.setStatus(status);
-        parentEpic.refreshStatus();
     }
 
     @Override
@@ -26,11 +25,11 @@ public class SubTask extends Task {
                 ", title='" + super.getTitle() + '\'' +
                 ", description='" + super.getDescription() + '\'' +
                 ", status=" + super.getStatus() + '\'' +
-                ", parentEpicId=" + parentEpic.getId() +
+                ", parentEpicId=" + parentEpicId +
                 '}';
     }
 
-    public void setParentEpic(Epic parentEpic) {
-        this.parentEpic = parentEpic;
+    public void setParentEpicId(Integer parentEpicId) {
+        this.parentEpicId = parentEpicId;
     }
 }

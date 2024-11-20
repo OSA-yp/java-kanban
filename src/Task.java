@@ -10,10 +10,10 @@ public class Task {
         return id;
     }
 
-    public Task(String title, String description) {
+    public Task(String title, String description, TaskStatus status) {
         this.title = title;
         this.description = description;
-        this.status = TaskStatus.NEW;
+        this.status = status;
 
     }
 
@@ -63,5 +63,13 @@ public class Task {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
