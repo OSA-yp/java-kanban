@@ -1,20 +1,18 @@
 public class Task {
-
     private Integer id;
     private String title;
-
     private String description;
     private TaskStatus status;
-
-    public Integer getId() {
-        return id;
-    }
 
     public Task(String title, String description, TaskStatus status) {
         this.title = title;
         this.description = description;
         this.status = status;
 
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -29,12 +27,6 @@ public class Task {
         return status;
     }
 
-
-    void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
-
     @Override
     public String toString() {
         return "Task{" +
@@ -44,7 +36,6 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
-
 
     public void setId(Integer id) {
         this.id = id;
@@ -71,5 +62,9 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    void setStatus(TaskStatus status) {
+        this.status = status;
     }
 }

@@ -18,7 +18,7 @@ public class Main {
         Integer task2Id = task2.getId();
 
 
-        Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования", TaskStatus.NEW);
+        Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
         tm.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
         SubTask subTask2 = new SubTask("Подзадача номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
@@ -27,7 +27,7 @@ public class Main {
         Integer subTask1Id = subTask1.getId();
         Integer epic1Id = epic1.getId();
 
-        Epic epic2 = new Epic("Мой 2й эпик", "Этот эпик будет содержать 1 задачу для тестирования", TaskStatus.NEW);
+        Epic epic2 = new Epic("Мой 2й эпик", "Этот эпик будет содержать 1 задачу для тестирования");
         tm.addEpic(epic2);
         SubTask subTask3 = new SubTask("Подзадача номер 3", "Это 3я тестовая подзадача она входит в эпик 2", TaskStatus.NEW, epic2.getId());
         tm.addSubTask(subTask3);
@@ -35,7 +35,7 @@ public class Main {
         Integer epic2Id = epic2.getId();
 
         // обновление эпика с предварительным добавлением ему задач
-        Epic epicToUpdate1 = new Epic("Мой обновленный 2й эпик", epic2.getDescription(), epic2.getStatus());
+        Epic epicToUpdate1 = new Epic("Мой обновленный 2й эпик", epic2.getDescription());
         epicToUpdate1.setId(epic2.getId());
         for (Integer subId : epic2.getSubTasksIds()
         ) {
@@ -77,9 +77,17 @@ public class Main {
 
         System.out.println("Удаление эпика с id=" + epic2Id + " Успешно:" + tm.removeTaskById(epic2Id));
 
+
+
+        // Удаление всех эпиков
+        tm.removeAllEpics();
+        System.out.println("Удаление всех эпиков");
+        printTasks(tm);
+
+
         // удалить все задачи
-        System.out.println("Удаление всех задач");
-        tm.removeAllTasks();
+        System.out.println("Удаление всех типов задач");
+        tm.removeAllTypesOfTasks();
 
         printTasks(tm);
     }
