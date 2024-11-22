@@ -39,11 +39,8 @@ public class TaskManager {
 
     // удаление всех эпиков с удалением всех их подзадач
     public void removeAllEpics() {
-        for (Epic epic : epics.values()
-        ) {
-            epic.removeAllSubTasks();
-        }
         epics.clear();
+        subTasks.clear();
     }
 
     // Удаление всех подзадач у всех эпиков с обновлением статусов эпиков
@@ -123,8 +120,6 @@ public class TaskManager {
             return false;
         }
         Epic epicToUpdate = epics.get(epic.getId());
-        // исправил по комментарию, однако предыдущая реализация была в логике, что при обновлении у эпика может
-        // поменяться и набор подзадач, поэтому ранее ниже был refreshEpicStatus
         epicToUpdate.setTitle(epic.getTitle());
         epicToUpdate.setDescription(epic.getDescription());
 
