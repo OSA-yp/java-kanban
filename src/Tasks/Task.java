@@ -1,3 +1,5 @@
+package Tasks;
+
 public class Task {
     private Integer id;
     private String title;
@@ -29,7 +31,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Task.Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -64,7 +66,7 @@ public class Task {
         this.description = description;
     }
 
-    void setStatus(TaskStatus status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 }

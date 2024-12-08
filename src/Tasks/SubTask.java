@@ -1,3 +1,5 @@
+package Tasks;
+
 public class SubTask extends Task {
 
 
@@ -16,7 +18,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "SubTask{" +
+        return "Task.SubTask{" +
                 "id=" + super.getId() +
                 ", title='" + super.getTitle() + '\'' +
                 ", description='" + super.getDescription() + '\'' +
