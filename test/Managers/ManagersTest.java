@@ -16,7 +16,7 @@ class ManagersTest {
 
     @Test
     void testOfGettingDefault() {
-        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager(inMemoryHistoryManager);
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         assertEquals(inMemoryTaskManager.getClass(), Managers.getDefault().getClass());
 

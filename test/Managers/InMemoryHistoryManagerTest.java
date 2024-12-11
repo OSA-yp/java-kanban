@@ -55,7 +55,7 @@ class InMemoryHistoryManagerTest {
         list.add(subTask3); // 11
 
         // сдвиг при достижении границы
-        list.remove(0);
+        list.removeFirst();
 
 
         assertEquals(list, historyManager.getHistory());

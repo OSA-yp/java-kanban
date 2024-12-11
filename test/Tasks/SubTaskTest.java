@@ -24,7 +24,7 @@ class SubTaskTest {
     void testToString() {
         subTask.setId(5);
 
-        assertEquals("Task.SubTask{id=5, title='title', description='description', status=DONE', parentEpicId=999}", subTask.toString());
+        assertEquals("Task.SubTask{id=5, title='title', description='description', status=NEW', parentEpicId=999}", subTask.toString());
 
     }
 }
