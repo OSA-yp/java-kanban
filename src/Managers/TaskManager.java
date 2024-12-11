@@ -1,11 +1,13 @@
 package Managers;
 import Tasks.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
-    ArrayList<Task> getTasks();
-    ArrayList<Epic> getEpics();
-    ArrayList<SubTask> getSubTasks();
+    List<Task> getTasks();
+    List<Epic> getEpics();
+    List<SubTask> getSubTasks();
+
+    List<Task> getHistory();
 
     //    b. Удаление всех задач.
     void removeAllTypesOfTasks();
@@ -36,5 +38,5 @@ public interface TaskManager {
     boolean removeSubTaskById(Integer id);
 
     // a. Получение списка всех подзадач определённого эпика.
-    ArrayList<SubTask> getSubtaskByEpicId(int epicId);
+    List<SubTask> getSubtaskByEpicId(int epicId);
 }

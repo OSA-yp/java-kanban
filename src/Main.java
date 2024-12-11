@@ -26,10 +26,11 @@ public class Main {
         Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask2 = new SubTask("Подзадача номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
+        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
         taskManager.addSubTask(subTask1);
         taskManager.addSubTask(subTask2);
         Integer subTask1Id = subTask1.getId();
+//        Integer epic1Id = epic1.getId();
         Integer epic1Id = epic1.getId();
 
         Epic epic2 = new Epic("Мой 2й эпик", "Этот эпик будет содержать 1 задачу для тестирования");
@@ -38,6 +39,8 @@ public class Main {
         taskManager.addSubTask(subTask3);
         Integer subTask3Id = subTask3.getId();
         Integer epic2Id = epic2.getId();
+
+
 
         // обновление эпика с предварительным добавлением ему задач
         Epic epicToUpdate1 = new Epic("Мой обновленный 2й эпик", epic2.getDescription());
@@ -50,6 +53,9 @@ public class Main {
 
         // Распечатайте списки эпиков, задач и подзадач через System.out.println(..).
         printTasks(taskManager);
+
+        // История
+        System.out.println(taskManager.getTaskById(task1Id));
 
         // Измените статусы созданных объектов, распечатайте их. Проверьте, что статус задачи и подзадачи сохранился, а статус эпика рассчитался по статусам подзадач.
         Task oldTask = taskManager.getTaskById(task1Id);

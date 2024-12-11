@@ -16,8 +16,7 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager(10);
-        taskManager = new InMemoryTaskManager(inMemoryHistoryManager);
+        taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("title", "description", TaskStatus.NEW);
         Task task2 = new Task("title", "description", TaskStatus.NEW);
@@ -38,6 +37,14 @@ class InMemoryTaskManagerTest {
 
         taskManager.addSubTask(subTask1); // id 6
         taskManager.addSubTask(subTask2); // id 7
+    }
+
+    @Test
+    void getHistory() {
+        ArrayList<Task> list = new ArrayList<>();
+        list.add(taskManager.getTaskById(2));
+
+        assertEquals(list, taskManager.getHistory());
     }
 
     @Test
