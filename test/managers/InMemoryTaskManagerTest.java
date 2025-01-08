@@ -233,9 +233,7 @@ class InMemoryTaskManagerTest {
         Managers.taskManager.removeAllEpics();
         Managers.taskManager.removeAllTasks();
         Managers.taskManager.removeAllSubTasks();
-        Managers.historyManager.history.clear();
-        Managers.historyManager.firstId = null;
-        Managers.historyManager.lastId = null;
+        Managers.historyManager.clearHistory();
 
 
         ArrayList<Task> list = new ArrayList<>();

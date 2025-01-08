@@ -9,9 +9,9 @@ import java.util.List;
 public class InMemoryHistoryManager implements HistoryManager {
 
 
-    HashMap<Integer, Node> history = new HashMap<>();
-    Integer firstId = null; // null для контроля первой записи в истории
-    Integer lastId = null; // null для первой записи в истории
+    private HashMap<Integer, Node> history = new HashMap<>();
+    private Integer firstId = null; // null для контроля первой записи в истории
+    private Integer lastId = null; // null для первой записи в истории
 
 
     @Override
@@ -59,6 +59,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return getTasks();
+    }
+
+    @Override
+    public void clearHistory() {
+        history.clear();
+        firstId = null;
+        lastId = null;
     }
 
     private void removeNode(Node nodeToRemove) {

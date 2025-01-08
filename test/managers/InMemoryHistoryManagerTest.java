@@ -15,7 +15,6 @@ class InMemoryHistoryManagerTest {
     @BeforeEach
     void setUp() {
 
-
         Task task1 = new Task("title", "description", TaskStatus.NEW);
         task1.setId(1);
         Task task2 = new Task("title", "description", TaskStatus.NEW);
@@ -146,4 +145,50 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(list, historyManager.getHistory());
     }
+
+    @Test
+    void testCleaningHistory(){
+        Task task1 = new Task("title", "description", TaskStatus.NEW);
+        task1.setId(1);
+        Task task2 = new Task("title", "description", TaskStatus.NEW);
+        task2.setId(2);
+        Task task3 = new Task("title", "description", TaskStatus.NEW);
+        task3.setId(3);
+        Task task4 = new Task("title", "description", TaskStatus.NEW);
+        task4.setId(4);
+        Task task5 = new Task("title", "description", TaskStatus.NEW);
+        task5.setId(5);
+        Task task6 = new Task("title", "description", TaskStatus.NEW);
+        task6.setId(6);
+        Epic epic1 = new Epic("title", "description");
+        epic1.setId(7);
+        Epic epic2 = new Epic("title", "description");
+        epic2.setId(8);
+        SubTask subTask1 = new SubTask("title", "description",TaskStatus.NEW, 999);
+        subTask1.setId(9);
+        SubTask subTask2 = new SubTask("title", "description",TaskStatus.NEW, 999);
+        subTask2.setId(10);
+        SubTask subTask3 = new SubTask("title", "description",TaskStatus.NEW, 999);
+        subTask3.setId(11);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task4);
+        historyManager.add(task5);
+        historyManager.add(task6);
+        historyManager.add(epic1);
+        historyManager.add(epic2);
+        historyManager.add(subTask1);
+        historyManager.add(subTask2); // 10
+        historyManager.add(subTask3); // 11
+
+        historyManager.clearHistory();
+
+        ArrayList<Task> list = new ArrayList<>();
+
+        assertEquals(list, historyManager.getHistory());
+    }
+
+
 }
