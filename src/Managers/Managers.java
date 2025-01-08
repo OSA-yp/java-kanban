@@ -2,7 +2,7 @@ package Managers;
 
 public class Managers {
 
-    static InMemoryHistoryManager historyManager= new InMemoryHistoryManager(10);
+    static InMemoryHistoryManager historyManager= new InMemoryHistoryManager();
     static InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
     public static TaskManager getDefault(){
