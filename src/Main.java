@@ -1,5 +1,5 @@
-import Managers.*;
-import Tasks.*;
+import managers.*;
+import tasks.*;
 
 public class Main {
     public static void main(String[] args) {

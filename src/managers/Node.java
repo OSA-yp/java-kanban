@@ -1,6 +1,6 @@
-package Managers;
+package managers;
 
-import Tasks.Task;
+import tasks.Task;
 
 public class Node {
     // TODO Класс для связанного списка,

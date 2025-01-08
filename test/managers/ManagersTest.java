@@ -1,4 +1,4 @@
-package Managers;
+package managers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ class ManagersTest {
 
     @BeforeEach
     void setUp() {
-        inMemoryHistoryManager = new InMemoryHistoryManager(10);
+        inMemoryHistoryManager = new InMemoryHistoryManager();
     }
 
     @Test

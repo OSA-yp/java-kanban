@@ -1,12 +1,12 @@
-package Managers;
+package managers;
 
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
-import Tasks.TaskStatus;
+import tasks.*;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
@@ -39,13 +39,7 @@ class InMemoryTaskManagerTest {
         taskManager.addSubTask(subTask2); // id 7
     }
 
-    @Test
-    void getHistory() {
-        ArrayList<Task> list = new ArrayList<>();
-        list.add(taskManager.getTaskById(2));
 
-        assertEquals(list, taskManager.getHistory());
-    }
 
     @Test
     void getTasks() {
@@ -230,5 +224,36 @@ class InMemoryTaskManagerTest {
 
         assertEquals(list, taskManager.getSubtaskByEpicId(4));
 
+    }
+    @Test @AfterAll
+    static void getHistory() {
+        // AfterAll потому что экземпляр менеджеров один, а порядок тестов непонятен
+
+        // сброс менеджеров в исходной состояние
+        Managers.taskManager.removeAllEpics();
+        Managers.taskManager.removeAllTasks();
+        Managers.taskManager.removeAllSubTasks();
+        Managers.historyManager.history.clear();
+        Managers.historyManager.firstId = null;
+        Managers.historyManager.lastId = null;
+
+
+        ArrayList<Task> list = new ArrayList<>();
+
+        Task task1 = new Task("title", "description", TaskStatus.NEW);
+        Managers.taskManager.addTask(task1);
+        list.add(Managers.taskManager.getTaskById(1));
+
+        Task task2 = new Task("title", "description", TaskStatus.NEW);
+        Managers.taskManager.addTask(task2);
+        list.add(Managers.taskManager.getTaskById(2));
+
+        Managers.taskManager.removeTaskById(1);
+        list.remove(0);
+
+
+        List<Task> history = Managers.getDefault().getHistory();
+
+        assertEquals(list, history);
     }
 }
