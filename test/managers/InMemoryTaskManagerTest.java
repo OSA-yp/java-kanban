@@ -227,9 +227,9 @@ class InMemoryTaskManagerTest {
     }
     @Test @AfterAll
     static void getHistory() {
-        // AfterAll потому что экземпляр менеджеров один, а порядок тестов непонятен
+        // AfterAll РїРѕС‚РѕРјСѓ С‡С‚Рѕ СЌРєР·РµРјРїР»СЏСЂ РјРµРЅРµРґР¶РµСЂРѕРІ РѕРґРёРЅ, Р° РїРѕСЂСЏРґРѕРє С‚РµСЃС‚РѕРІ РЅРµРїРѕРЅСЏС‚РµРЅ
 
-        // сброс менеджеров в исходной состояние
+        // СЃР±СЂРѕСЃ РјРµРЅРµРґР¶РµСЂРѕРІ РІ РёСЃС…РѕРґРЅРѕР№ СЃРѕСЃС‚РѕСЏРЅРёРµ
         Managers.taskManager.removeAllEpics();
         Managers.taskManager.removeAllTasks();
         Managers.taskManager.removeAllSubTasks();

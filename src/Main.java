@@ -5,18 +5,18 @@ public class Main {
     public static void main(String[] args) {
 
 
-        // Дополнительное задание. Реализуем пользовательский сценарий
+        // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ Р·Р°РґР°РЅРёРµ. Р РµР°Р»РёР·СѓРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёР№ СЃС†РµРЅР°СЂРёР№
 
 
-        // тестирование Managers.TaskManager
+        // С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Managers.TaskManager
 
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
 
-        // 1. Создайте две задачи, эпик с тремя подзадачами и эпик без подзадач.
-        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW);
-        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW);
+        // 1. РЎРѕР·РґР°Р№С‚Рµ РґРІРµ Р·Р°РґР°С‡Рё, СЌРїРёРє СЃ С‚СЂРµРјСЏ РїРѕРґР·Р°РґР°С‡Р°РјРё Рё СЌРїРёРє Р±РµР· РїРѕРґР·Р°РґР°С‡.
+        Task task1 = new Task("Р—Р°РґР°С‡Р° РЅРѕРјРµСЂ 1", "Р­С‚Рѕ 1СЏ  С‚РµСЃС‚РѕРІР°СЏ Р·Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", TaskStatus.NEW);
+        Task task2 = new Task("Р—Р°РґР°С‡Р° РЅРѕРјРµСЂ РґРІР°", "Р­С‚Рѕ РІС‚РѕСЂР°СЏ  С‚РµСЃС‚РѕРІР°СЏ Р·Р°РґР°С‡Р° РґР»СЏ С‚РµСЃС‚Р°", TaskStatus.NEW);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
@@ -24,11 +24,11 @@ public class Main {
         Integer task2Id = task2.getId();
 
 
-        Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
+        Epic epic1 = new Epic("РњРѕР№ РїРµСЂРІС‹Р№ СЌРїРёРє", "Р­С‚РѕС‚ СЌРїРёРє Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р·Р°РґР°С‡Рё РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ");
         taskManager.addEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° РЅРѕРјРµСЂ 1", "Р­С‚Рѕ РїРµСЂРІР°СЏ С‚РµСЃС‚РѕРІР°СЏ РїРѕРґР·Р°РґР°С‡Р° РѕРЅР° РІС…РѕРґРёС‚ РІ СЌРїРёРє 1", TaskStatus.NEW, epic1.getId());
+        SubTask subTask2 = new SubTask("РџРѕРґР·Р°РґР°С‡Р°  РЅРѕРјРµСЂ РґРІР°", "Р­С‚Рѕ 2СЏ  С‚РµСЃС‚РѕРІР°СЏ РїРѕРґР·Р°РґР°С‡Р° РѕРЅР° РІС…РѕРґРёС‚ РІ СЌРїРёРє 1", TaskStatus.NEW, epic1.getId());
+        SubTask subTask3 = new SubTask("РџРѕРґР·Р°РґР°С‡Р°  РЅРѕРјРµСЂ 3", "Р­С‚Рѕ 3СЏ  С‚РµСЃС‚РѕРІР°СЏ РїРѕРґР·Р°РґР°С‡Р° РѕРЅР° РІС…РѕРґРёС‚ РІ СЌРїРёРє 1", TaskStatus.NEW, epic1.getId());
         taskManager.addSubTask(subTask1);
         taskManager.addSubTask(subTask2);
         taskManager.addSubTask(subTask3);
@@ -38,7 +38,7 @@ public class Main {
         Integer subTask3Id = subTask3.getId();
         Integer epic1Id = epic1.getId();
 
-        Epic epic2 = new Epic("Мой 2й эпик", "Этот эпик не будет содержать задач");
+        Epic epic2 = new Epic("РњРѕР№ 2Р№ СЌРїРёРє", "Р­С‚РѕС‚ СЌРїРёРє РЅРµ Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р·Р°РґР°С‡");
         taskManager.addEpic(epic2);
 
         Integer epic2Id = epic2.getId();
@@ -46,41 +46,41 @@ public class Main {
 
 
 
-        System.out.println("Запросите созданные задачи несколько раз в разном порядке:");
+        System.out.println("Р—Р°РїСЂРѕСЃРёС‚Рµ СЃРѕР·РґР°РЅРЅС‹Рµ Р·Р°РґР°С‡Рё РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р· РІ СЂР°Р·РЅРѕРј РїРѕСЂСЏРґРєРµ:");
         taskManager.getEpicById(epic1Id);
         taskManager.getSubTaskById(subTask1Id);
         taskManager.getSubTaskById(subTask2Id);
         taskManager.getSubTaskById(subTask3Id);
 
-        taskManager.getEpicById(epic1Id);  // повторный запрос
+        taskManager.getEpicById(epic1Id);  // РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСЂРѕСЃ
 
         taskManager.getTaskById(task1Id);
-        taskManager.getTaskById(task2Id); // двойной запрос
+        taskManager.getTaskById(task2Id); // РґРІРѕР№РЅРѕР№ Р·Р°РїСЂРѕСЃ
         taskManager.getTaskById(task2Id);
 
 
-        // После каждого запроса выведите историю и убедитесь, что в ней нет повторов
+        // РџРѕСЃР»Рµ РєР°Р¶РґРѕРіРѕ Р·Р°РїСЂРѕСЃР° РІС‹РІРµРґРёС‚Рµ РёСЃС‚РѕСЂРёСЋ Рё СѓР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ РІ РЅРµР№ РЅРµС‚ РїРѕРІС‚РѕСЂРѕРІ
         printHistory(historyManager);
 
-        System.out.println("Удалите задачу, которая есть в истории, и проверьте, что при печати она не будет выводиться (task1Id = " + task1Id + "):");
+        System.out.println("РЈРґР°Р»РёС‚Рµ Р·Р°РґР°С‡Сѓ, РєРѕС‚РѕСЂР°СЏ РµСЃС‚СЊ РІ РёСЃС‚РѕСЂРёРё, Рё РїСЂРѕРІРµСЂСЊС‚Рµ, С‡С‚Рѕ РїСЂРё РїРµС‡Р°С‚Рё РѕРЅР° РЅРµ Р±СѓРґРµС‚ РІС‹РІРѕРґРёС‚СЊСЃСЏ (task1Id = " + task1Id + "):");
         taskManager.removeTaskById(task1Id);
         printHistory(historyManager);
 
 
-        System.out.println("Удалите эпик с тремя подзадачами и убедитесь, что из истории удалился как сам эпик, так и все его подзадачи");
+        System.out.println("РЈРґР°Р»РёС‚Рµ СЌРїРёРє СЃ С‚СЂРµРјСЏ РїРѕРґР·Р°РґР°С‡Р°РјРё Рё СѓР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ РёР· РёСЃС‚РѕСЂРёРё СѓРґР°Р»РёР»СЃСЏ РєР°Рє СЃР°Рј СЌРїРёРє, С‚Р°Рє Рё РІСЃРµ РµРіРѕ РїРѕРґР·Р°РґР°С‡Рё");
         taskManager.removeEpicById(epic1Id);
         printHistory(historyManager);
     }
 
     private static void printTasks(TaskManager tm) {
-        System.out.println("Текущие задачи:");
-        // отдельные задачи
+        System.out.println("РўРµРєСѓС‰РёРµ Р·Р°РґР°С‡Рё:");
+        // РѕС‚РґРµР»СЊРЅС‹Рµ Р·Р°РґР°С‡Рё
         for (Task task : tm.getTasks()
         ) {
             System.out.println(task);
         }
 
-        // эпики с их подзадачами
+        // СЌРїРёРєРё СЃ РёС… РїРѕРґР·Р°РґР°С‡Р°РјРё
         for (Epic epic : tm.getEpics()
         ) {
             System.out.println(epic);
@@ -94,7 +94,7 @@ public class Main {
     }
 
     private static void printHistory(HistoryManager historyManager) {
-        System.out.println("Текущая история:");
+        System.out.println("РўРµРєСѓС‰Р°СЏ РёСЃС‚РѕСЂРёСЏ:");
         for (Task task : historyManager.getHistory()
         ) {
             System.out.println(task);

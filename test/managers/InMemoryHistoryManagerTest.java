@@ -131,15 +131,15 @@ class InMemoryHistoryManagerTest {
         list.add(subTask2); // 10
         list.add(subTask3); // 11
 
-        // удаляем первый, осталось 10
+        // СѓРґР°Р»СЏРµРј РїРµСЂРІС‹Р№, РѕСЃС‚Р°Р»РѕСЃСЊ 10
         list.remove(0);
         historyManager.remove(1);
 
-        // удаляем из середины, осталось 9
+        // СѓРґР°Р»СЏРµРј РёР· СЃРµСЂРµРґРёРЅС‹, РѕСЃС‚Р°Р»РѕСЃСЊ 9
         list.remove(5);
         historyManager.remove(7);
 
-        // удаляем последний
+        // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№
         list.remove(8);
         historyManager.remove(11);
 

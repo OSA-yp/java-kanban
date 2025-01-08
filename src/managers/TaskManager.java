@@ -13,45 +13,45 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
-    //    b. Удаление всех задач.
+    //    b. РЈРґР°Р»РµРЅРёРµ РІСЃРµС… Р·Р°РґР°С‡.
     void removeAllTypesOfTasks();
 
     void removeAllTasks();
 
-    // удаление всех эпиков с удалением всех их подзадач
+    // СѓРґР°Р»РµРЅРёРµ РІСЃРµС… СЌРїРёРєРѕРІ СЃ СѓРґР°Р»РµРЅРёРµРј РІСЃРµС… РёС… РїРѕРґР·Р°РґР°С‡
     void removeAllEpics();
 
-    // Удаление всех подзадач у всех эпиков с обновлением статусов эпиков
+    // РЈРґР°Р»РµРЅРёРµ РІСЃРµС… РїРѕРґР·Р°РґР°С‡ Сѓ РІСЃРµС… СЌРїРёРєРѕРІ СЃ РѕР±РЅРѕРІР»РµРЅРёРµРј СЃС‚Р°С‚СѓСЃРѕРІ СЌРїРёРєРѕРІ
     void removeAllSubTasks();
 
-    //    c. Получение по идентификатору.
+    //    c. РџРѕР»СѓС‡РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     Task getTaskById(Integer id);
 
     SubTask getSubTaskById(Integer id);
 
     Epic getEpicById(Integer id);
 
-    //    d. Создание. Сам объект должен передаваться в качестве параметра.
+    //    d. РЎРѕР·РґР°РЅРёРµ. РЎР°Рј РѕР±СЉРµРєС‚ РґРѕР»Р¶РµРЅ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР°.
     void addTask(Task newTask);
 
     void addEpic(Epic newEpic);
 
     void addSubTask(SubTask newSubTask);
 
-    //    e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
+    //    e. РћР±РЅРѕРІР»РµРЅРёРµ. РќРѕРІР°СЏ РІРµСЂСЃРёСЏ РѕР±СЉРµРєС‚Р° СЃ РІРµСЂРЅС‹Рј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРј РїРµСЂРµРґР°С‘С‚СЃСЏ РІ РІРёРґРµ РїР°СЂР°РјРµС‚СЂР°.
     boolean updateTask(Task task);
 
     boolean updateEpic(Epic epic);
 
     boolean updateSubTask(SubTask subTask);
 
-    //    f. Удаление по идентификатору.
+    //    f. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
     boolean removeTaskById(Integer id);
 
     boolean removeEpicById(Integer id);
 
     boolean removeSubTaskById(Integer id);
 
-    // a. Получение списка всех подзадач определённого эпика.
+    // a. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… РїРѕРґР·Р°РґР°С‡ РѕРїСЂРµРґРµР»С‘РЅРЅРѕРіРѕ СЌРїРёРєР°.
     List<SubTask> getSubtaskByEpicId(int epicId);
 }

@@ -3,7 +3,6 @@ package managers;
 import tasks.Task;
 
 public class Node {
-    // TODO Класс для связанного списка,
     private Task data;
     private Node next;
     private Node prev;

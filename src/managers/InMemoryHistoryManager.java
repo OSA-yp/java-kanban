@@ -1,1 +1,130 @@
-package managers;import tasks.*;import java.util.ArrayList;import java.util.HashMap;import java.util.List;public class InMemoryHistoryManager implements HistoryManager {    HashMap<Integer, Node> history = new HashMap<>();    Integer firstId = null; // null для контроля первой записи в истории    Integer lastId = null; // null для первой записи в истории    @Override    public void add(Task task) {        if (task == null) {            return;        }        Integer newTaskId = task.getId();        // если задача уже есть в истории её нужно удалить        if (history.containsKey(newTaskId)) {            remove(newTaskId);        }        // создаем новый узел для истории        Node node = new Node(task, history.get(lastId));        // добавляем задачу в конец истории        linkLast(node);    }    @Override    public void remove(int taskIdToRemove) {        // получаем удаляемый узел        Node nodeToRemove = history.get(taskIdToRemove);        if (nodeToRemove == null) {            return;        }        // линкуем соседние узлы, узел с удаляемой задачей удаляется из связанного списка        removeNode(nodeToRemove);        // удаляем задачу из истории        history.remove(taskIdToRemove);        // проверяем, а не последний ли удаляется, если да удаляем указатели        if (history.isEmpty()) {            firstId = null;            lastId = null;        }    }    @Override    public List<Task> getHistory() {        return getTasks();    }    private void removeNode(Node nodeToRemove) {        // получаем его предыдущий и следующий узлы        Node nextNode = nodeToRemove.getNext();        Node prevNode = nodeToRemove.getPrev();        // связываем узлы до и после удаляемого        if (prevNode != null) {            prevNode.setNext(nextNode);            // проверяем не нужно изменить указатель на конец            if (nodeToRemove.getData().getId() == lastId) {                lastId = prevNode.getData().getId();            }        }        if (nextNode != null) {            nextNode.setPrev(prevNode);            // проверяем не нужно изменить указатель на начало            if (nodeToRemove.getData().getId() == firstId) {                firstId = nextNode.getData().getId();            }        }    }    private ArrayList<Task> getTasks() {        ArrayList<Task> result = new ArrayList<>();        // получаем первый в истории узел        Node current = history.get(firstId);        // пока есть next обходим всю историю        while (current != null) {            // добавляем задачу текущего узла в результат            result.add(current.getData());            // теперь следующий становится текущим            current = current.getNext();        }        return result;    }    void linkLast(Node newNode) {        // цепляем новый узел к предыдущему, если он уже есть        if (lastId != null) {            Node prev = history.get(lastId);            prev.setNext(newNode);        }        // добавляем новый узел        Integer newId = newNode.getData().getId();        history.put(newId, newNode);        // если это первый узел, то сохраняем его        if (firstId == null) {            firstId = newId;        }        lastId = newId;    }}
+package managers;
+
+import tasks.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class InMemoryHistoryManager implements HistoryManager {
+
+
+    HashMap<Integer, Node> history = new HashMap<>();
+    Integer firstId = null; // null РґР»СЏ РєРѕРЅС‚СЂРѕР»СЏ РїРµСЂРІРѕР№ Р·Р°РїРёСЃРё РІ РёСЃС‚РѕСЂРёРё
+    Integer lastId = null; // null РґР»СЏ РїРµСЂРІРѕР№ Р·Р°РїРёСЃРё РІ РёСЃС‚РѕСЂРёРё
+
+
+    @Override
+    public void add(Task task) {
+        if (task == null) {
+            return;
+        }
+        Integer newTaskId = task.getId();
+
+        // РµСЃР»Рё Р·Р°РґР°С‡Р° СѓР¶Рµ РµСЃС‚СЊ РІ РёСЃС‚РѕСЂРёРё РµС‘ РЅСѓР¶РЅРѕ СѓРґР°Р»РёС‚СЊ
+        if (history.containsKey(newTaskId)) {
+            remove(newTaskId);
+        }
+
+        // СЃРѕР·РґР°РµРј РЅРѕРІС‹Р№ СѓР·РµР» РґР»СЏ РёСЃС‚РѕСЂРёРё
+        Node node = new Node(task, history.get(lastId));
+
+        // РґРѕР±Р°РІР»СЏРµРј Р·Р°РґР°С‡Сѓ РІ РєРѕРЅРµС† РёСЃС‚РѕСЂРёРё
+        linkLast(node);
+    }
+
+    @Override
+    public void remove(int taskIdToRemove) {
+
+        // РїРѕР»СѓС‡Р°РµРј СѓРґР°Р»СЏРµРјС‹Р№ СѓР·РµР»
+        Node nodeToRemove = history.get(taskIdToRemove);
+
+        if (nodeToRemove == null) {
+            return;
+        }
+
+        // Р»РёРЅРєСѓРµРј СЃРѕСЃРµРґРЅРёРµ СѓР·Р»С‹, СѓР·РµР» СЃ СѓРґР°Р»СЏРµРјРѕР№ Р·Р°РґР°С‡РµР№ СѓРґР°Р»СЏРµС‚СЃСЏ РёР· СЃРІСЏР·Р°РЅРЅРѕРіРѕ СЃРїРёСЃРєР°
+        removeNode(nodeToRemove);
+
+        // СѓРґР°Р»СЏРµРј Р·Р°РґР°С‡Сѓ РёР· РёСЃС‚РѕСЂРёРё
+        history.remove(taskIdToRemove);
+
+        // РїСЂРѕРІРµСЂСЏРµРј, Р° РЅРµ РїРѕСЃР»РµРґРЅРёР№ Р»Рё СѓРґР°Р»СЏРµС‚СЃСЏ, РµСЃР»Рё РґР° СѓРґР°Р»СЏРµРј СѓРєР°Р·Р°С‚РµР»Рё
+        if (history.isEmpty()) {
+            firstId = null;
+            lastId = null;
+        }
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return getTasks();
+    }
+
+    private void removeNode(Node nodeToRemove) {
+
+        // РїРѕР»СѓС‡Р°РµРј РµРіРѕ РїСЂРµРґС‹РґСѓС‰РёР№ Рё СЃР»РµРґСѓСЋС‰РёР№ СѓР·Р»С‹
+        Node nextNode = nodeToRemove.getNext();
+        Node prevNode = nodeToRemove.getPrev();
+
+        // СЃРІСЏР·С‹РІР°РµРј СѓР·Р»С‹ РґРѕ Рё РїРѕСЃР»Рµ СѓРґР°Р»СЏРµРјРѕРіРѕ
+        if (prevNode != null) {
+            prevNode.setNext(nextNode);
+
+            // РїСЂРѕРІРµСЂСЏРµРј РЅРµ РЅСѓР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕРЅРµС†
+            if (nodeToRemove.getData().getId() == lastId) {
+                lastId = prevNode.getData().getId();
+            }
+
+        }
+        if (nextNode != null) {
+            nextNode.setPrev(prevNode);
+            // РїСЂРѕРІРµСЂСЏРµРј РЅРµ РЅСѓР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅР°С‡Р°Р»Рѕ
+            if (nodeToRemove.getData().getId() == firstId) {
+                firstId = nextNode.getData().getId();
+            }
+        }
+
+    }
+
+    private ArrayList<Task> getTasks() {
+
+        ArrayList<Task> result = new ArrayList<>();
+
+        // РїРѕР»СѓС‡Р°РµРј РїРµСЂРІС‹Р№ РІ РёСЃС‚РѕСЂРёРё СѓР·РµР»
+        Node current = history.get(firstId);
+
+        // РїРѕРєР° РµСЃС‚СЊ next РѕР±С…РѕРґРёРј РІСЃСЋ РёСЃС‚РѕСЂРёСЋ
+        while (current != null) {
+
+            // РґРѕР±Р°РІР»СЏРµРј Р·Р°РґР°С‡Сѓ С‚РµРєСѓС‰РµРіРѕ СѓР·Р»Р° РІ СЂРµР·СѓР»СЊС‚Р°С‚
+            result.add(current.getData());
+
+            // С‚РµРїРµСЂСЊ СЃР»РµРґСѓСЋС‰РёР№ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ С‚РµРєСѓС‰РёРј
+            current = current.getNext();
+        }
+
+        return result;
+    }
+
+    void linkLast(Node newNode) {
+
+        // С†РµРїР»СЏРµРј РЅРѕРІС‹Р№ СѓР·РµР» Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ, РµСЃР»Рё РѕРЅ СѓР¶Рµ РµСЃС‚СЊ
+        if (lastId != null) {
+            Node prev = history.get(lastId);
+
+            prev.setNext(newNode);
+        }
+
+        // РґРѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СѓР·РµР»
+        Integer newId = newNode.getData().getId();
+        history.put(newId, newNode);
+
+        // РµСЃР»Рё СЌС‚Рѕ РїРµСЂРІС‹Р№ СѓР·РµР», С‚Рѕ СЃРѕС…СЂР°РЅСЏРµРј РµРіРѕ
+        if (firstId == null) {
+            firstId = newId;
+        }
+
+        lastId = newId;
+    }
+}
