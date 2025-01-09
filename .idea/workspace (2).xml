@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b7b30904-0afc-45d9-a7d6-e8f8ba61fe42" name="Changes" comment="Переход на интерфейсы для менеджеров, добавлена история обращения к задачам, добавлены юнит тесты">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2p4iFRkvGkyYWqTpf3GdmHiEuRQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+      <recent name="Tasks.Task" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="Managers" />
+      <recent name="Tasks" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ManagersTest">
+    <configuration name="InMemoryTaskManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Managers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Managers" />
+      <option name="MAIN_CLASS_NAME" value="Managers.InMemoryTaskManagerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InMemoryTaskManagerTest.removeSubTaskById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Managers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Managers" />
+      <option name="MAIN_CLASS_NAME" value="Managers.InMemoryTaskManagerTest" />
+      <option name="METHOD_NAME" value="removeSubTaskById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InMemoryTaskManagerTest.removeTaskById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Managers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Managers" />
+      <option name="MAIN_CLASS_NAME" value="Managers.InMemoryTaskManagerTest" />
+      <option name="METHOD_NAME" value="removeTaskById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InMemoryTaskManagerTest.updateTask" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Managers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Managers" />
+      <option name="MAIN_CLASS_NAME" value="Managers.InMemoryTaskManagerTest" />
+      <option name="METHOD_NAME" value="updateTask" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ManagersTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Managers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Managers" />
+      <option name="MAIN_CLASS_NAME" value="Managers.ManagersTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ManagersTest" />
+        <item itemvalue="JUnit.InMemoryTaskManagerTest" />
+        <item itemvalue="JUnit.InMemoryTaskManagerTest.removeSubTaskById" />
+        <item itemvalue="JUnit.InMemoryTaskManagerTest.removeTaskById" />
+        <item itemvalue="JUnit.InMemoryTaskManagerTest.updateTask" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b7b30904-0afc-45d9-a7d6-e8f8ba61fe42" name="Changes" comment="" />
+      <created>1732031645382</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732031645382</updated>
+      <workItem from="1732031647703" duration="42000" />
+      <workItem from="1732031900162" duration="190000" />
+      <workItem from="1732089576096" duration="15685000" />
+      <workItem from="1732120172141" duration="219000" />
+      <workItem from="1732263256183" duration="11244000" />
+      <workItem from="1732543794844" duration="1332000" />
+      <workItem from="1732799572201" duration="1670000" />
+      <workItem from="1732967165514" duration="28000" />
+      <workItem from="1733585054701" duration="2116000" />
+      <workItem from="1733647561784" duration="18617000" />
+      <workItem from="1733750352586" duration="139000" />
+      <workItem from="1733750510224" duration="609000" />
+    </task>
+    <task id="LOCAL-00001" summary="Первая реализация TaskManager, особенности указаны в README.md">
+      <created>1732032001934</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732032001934</updated>
+    </task>
+    <task id="LOCAL-00002" summary="class Task&#10;- для всех полей класса добавлены геттеры и сеттеры&#10;- добавлено - задачи/подзадачи пользователь может отдать любой статус в конструктор&#10;&#10;class Subtask&#10;- переход на хранение id вместо объекта Epic&#10;- удалена возможность менять parentEpic&#10;&#10;class Epic &#10;- переход на хранение id вместо объектов SubTask&#10;- переработан removeSubTask, теперь поиск перебором &#10;&#10;&#10;class TaskManager&#10;- переход с 1 на 3 хранилища задач, по типам&#10;- добавлены методы под каждый тип задач&#10;&#10;main&#10;- переработка под изменения в TaskManager&#10;- добавлено тестирование обновления эпика">
+      <created>1732104316272</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732104316272</updated>
+    </task>
+    <task id="LOCAL-00003" summary="class TaskManager&#10;- Методы креаторы/апдейтеры теперь получают только готовый экземпляр класса задачи своего типа&#10;- Теперь обновляются только те задачи, которые уже были в своем хранилище&#10;- Рефакторинг getSubtaskByEpic &#10;&#10;main&#10;- переработка под изменения в TaskManager&#10;- добавлен вывод результатов update">
+      <created>1732109134147</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732109134147</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Изменения по результатам ревью номер 3&#10;&#10;class Epic&#10;- упрощен removeSubTask&#10;- переход на создание эпика без указания статуса&#10;- добавлен метод removeAllSubTasks(), который целиком очистит все хранилище subTasks, правда непонятно где его использовать&#10;&#10;class SubTask&#10;- удалено лишнее переопределение сеттера&#10;- удален лишний сеттер для parentEpicId&#10;&#10;class Task&#10;- структура классов приведена к  code-style &#10;&#10;class TaskManager&#10;- теперь у задач первый id=1 &#10;- рефакторинг, убраны лишние переменные&#10;- рефакторинг removeAllTasks -&gt; removeAllTypesOfTasks&#10;- добавлены методы удаления всех объектов для отдельных типов задач&#10;- рефакторинг addSubTask, добавлена проверка на существование эпика&#10;- теперь updateEpic обновляет только заголовок и описание&#10;- в updateSubTask добавлена проверка, что заменяемая подзадача привязана к тому же эпик, что и раньше&#10;- в removeTaskById добавлена проверка на существование задачи&#10;- рефакторинг removeEpicById, добавлена проверка на существование эпика, теперь удаление эпика удаляет и все его подзадачи&#10;- в removeSubTaskById добавлена проверка на существование подзадачи&#10;- &#10;&#10;main&#10;- рефакторинг тестов под изменения в классах&#10;- добавлено удаление всех подзадач">
+      <created>1732290611214</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732290611214</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Изменения по результатам ревью номер 4&#10;&#10;&#10;class TaskManager&#10;- в removeAllEpics исправлена ошибка, теперь удаляются все эпики и все подзадачи&#10;- удалены лишние комментарии">
+      <created>1732297128189</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732297128189</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Переход на интерфейсы для менеджеров, добавлена история обращения к задачам, добавлены юнит тесты">
+      <created>1733667531535</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733667531535</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Первая реализация TaskManager, особенности указаны в README.md" />
+    <MESSAGE value="class Task&#10;- для всех полей класса добавлены геттеры и сеттеры&#10;- добавлено - задачи/подзадачи пользователь может отдать любой статус в конструктор&#10;&#10;class Subtask&#10;- переход на хранение id вместо объекта Epic&#10;- удалена возможность менять parentEpic&#10;&#10;class Epic &#10;- переход на хранение id вместо объектов SubTask&#10;- переработан removeSubTask, теперь поиск перебором &#10;&#10;&#10;class TaskManager&#10;- переход с 1 на 3 хранилища задач, по типам&#10;- добавлены методы под каждый тип задач&#10;&#10;main&#10;- переработка под изменения в TaskManager&#10;- добавлено тестирование обновления эпика" />
+    <MESSAGE value="class TaskManager&#10;- Методы креаторы/апдейтеры теперь получают только готовый экземпляр класса задачи своего типа&#10;- Теперь обновляются только те задачи, которые уже были в своем хранилище&#10;- Рефакторинг getSubtaskByEpic &#10;&#10;main&#10;- переработка под изменения в TaskManager&#10;- добавлен вывод результатов update" />
+    <MESSAGE value="Изменения по результатам ревью номер 3&#10;&#10;class Epic&#10;- упрощен removeSubTask&#10;- переход на создание эпика без указания статуса&#10;- добавлен метод removeAllSubTasks(), который целиком очистит все хранилище subTasks, правда непонятно где его использовать&#10;&#10;class SubTask&#10;- удалено лишнее переопределение сеттера&#10;- удален лишний сеттер для parentEpicId&#10;&#10;class Task&#10;- структура классов приведена к  code-style &#10;&#10;class TaskManager&#10;- теперь у задач первый id=1 &#10;- рефакторинг, убраны лишние переменные&#10;- рефакторинг removeAllTasks -&gt; removeAllTypesOfTasks&#10;- добавлены методы удаления всех объектов для отдельных типов задач&#10;- рефакторинг addSubTask, добавлена проверка на существование эпика&#10;- теперь updateEpic обновляет только заголовок и описание&#10;- в updateSubTask добавлена проверка, что заменяемая подзадача привязана к тому же эпик, что и раньше&#10;- в removeTaskById добавлена проверка на существование задачи&#10;- рефакторинг removeEpicById, добавлена проверка на существование эпика, теперь удаление эпика удаляет и все его подзадачи&#10;- в removeSubTaskById добавлена проверка на существование подзадачи&#10;- &#10;&#10;main&#10;- рефакторинг тестов под изменения в классах&#10;- добавлено удаление всех подзадач" />
+    <MESSAGE value="Изменения по результатам ревью номер 4&#10;&#10;&#10;class TaskManager&#10;- в removeAllEpics исправлена ошибка, теперь удаляются все эпики и все подзадачи&#10;- удалены лишние комментарии" />
+    <MESSAGE value="Переход на интерфейсы для менеджеров, добавлена история обращения к задачам, добавлены юнит тесты" />
+    <option name="LAST_COMMIT_MESSAGE" value="Переход на интерфейсы для менеджеров, добавлена история обращения к задачам, добавлены юнит тесты" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/java_kanban$InMemoryTaskManagerTest.ic" NAME="InMemoryTaskManagerTest Coverage Results" MODIFIED="1733667273548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Managers.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/java_kanban$InMemoryHistoryManagerTest.ic" NAME="InMemoryHistoryManagerTest Coverage Results" MODIFIED="1733662761661" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Managers.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/java_kanban$EpicTest.ic" NAME="EpicTest Coverage Results" MODIFIED="1733662082507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Tasks.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/java_kanban$ManagersTest.ic" NAME="ManagersTest Coverage Results" MODIFIED="1733667324024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Managers.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/java_kanban$TaskTest.ic" NAME="TaskTest Coverage Results" MODIFIED="1733661071849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Tasks.*</FILTER>
+    </SUITE>
+  </component>
+</project>
