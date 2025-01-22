@@ -5,5 +5,4 @@ public class ManagerLoadException extends Exception {
         super();
     }
 
-    // todo понять нужно ли тут что-то дописывать
 }
