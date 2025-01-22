@@ -230,23 +230,26 @@ class InMemoryTaskManagerTest {
         // AfterAll потому что экземпляр менеджеров один, а порядок тестов непонятен
 
         // сброс менеджеров в исходной состояние
-        Managers.taskManager.removeAllEpics();
-        Managers.taskManager.removeAllTasks();
-        Managers.taskManager.removeAllSubTasks();
+
+        TaskManager taskManager = Managers.getInMemoryManager();
+
+        taskManager.removeAllEpics();
+        taskManager.removeAllTasks();
+        taskManager.removeAllSubTasks();
         Managers.historyManager.clearHistory();
 
 
         ArrayList<Task> list = new ArrayList<>();
 
         Task task1 = new Task("title", "description", TaskStatus.NEW);
-        Managers.taskManager.addTask(task1);
-        list.add(Managers.taskManager.getTaskById(1));
+        taskManager.addTask(task1);
+        list.add(taskManager.getTaskById(1));
 
         Task task2 = new Task("title", "description", TaskStatus.NEW);
-        Managers.taskManager.addTask(task2);
-        list.add(Managers.taskManager.getTaskById(2));
+        taskManager.addTask(task2);
+        list.add(taskManager.getTaskById(2));
 
-        Managers.taskManager.removeTaskById(1);
+        taskManager.removeTaskById(1);
         list.remove(0);
 
 
