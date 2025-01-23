@@ -107,7 +107,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 }
             }
         } catch (IOException | ManagerLoadException e) {
-
+            System.out.println("Во время загрузки файла произошла ошибка");
         }
 
         // линкуем подзадачи и эпики после всей загрузки, чтобы не зависеть от порядка subTask/epic
