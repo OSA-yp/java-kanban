@@ -1,8 +1,8 @@
 package exceptions;
 
-public class ManagerLoadException extends Exception {
-    public ManagerLoadException() {
-        super();
+public class ManagerLoadException extends RuntimeException  {
+    public ManagerLoadException(String message) {
+        super(message);
     }
 
 }

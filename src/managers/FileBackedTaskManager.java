@@ -12,6 +12,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private File file;
 
+    private ArrayList<SubTask> loadedSubTasks = new ArrayList<>();
+
     public FileBackedTaskManager(File file) {
         super();
         this.file = file;
@@ -24,14 +26,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         ArrayList<String> stringsToWrite = new ArrayList<>();
 
         // для упрощенной модели файл перезаписывается полностью при каждом изменении задачи
-         if (!this.file.exists()) {
-             file.delete();
-             try {
-                 file.createNewFile();
-             } catch (IOException e) {
-                 throw new RuntimeException(e);
-             }
-         }
+        if (!this.file.exists()) {
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         stringsToWrite.add("id,type,name,status,description,epic\n");
 
 
@@ -57,11 +59,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 fileWriter.write(stringToWrite);
             }
         } catch (IOException e) {
-            try {
-                throw new ManagerSaveException(e); // Пробрасываем исходное исключение
-            } catch (ManagerSaveException ex) {
-                throw new RuntimeException(ex);
-            }
+            throw new ManagerSaveException("Запись в файл " + file.getName() + " не удалась");
         }
     }
 
@@ -105,12 +103,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     continue; // для первой строки заголовков
                 }
                 if (!parseObjectFromString(line)) {
-                    throw new ManagerLoadException();
+                    throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
                 }
             }
-        } catch (ManagerLoadException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | ManagerLoadException e) {
+
         }
+
+        // линкуем подзадачи и эпики после всей загрузки, чтобы не зависеть от порядка subTask/epic
+        for (SubTask subtask : loadedSubTasks
+        ) {
+            Epic epic = super.getEpicById(subtask.getParentEpicId());
+            epic.addSubTask(subtask.getId());
+        }
+
     }
 
     private Boolean parseObjectFromString(String sting) {
@@ -128,24 +134,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             subTaskParenEpic = Integer.valueOf(items[5]);
 
         }
+        // update следующего id в taskManager
+        if (id > super.getLastId()) {
+            super.setLastId(id);
+        }
+
         switch (type) {
             case TASK: {
                 Task task = new Task(title, description, status);
                 task.setId(id);
-                super.addTask(task);
+                super.loadTask(task);
                 return true;
             }
             case SUBTASK: {
                 SubTask subTask = new SubTask(title, description, status, subTaskParenEpic);
                 subTask.setId(id);
-                super.addSubTask(subTask);
+                super.loadSubTask(subTask);
+                loadedSubTasks.add(subTask);
                 return true;
             }
             case EPIC: {
                 Epic epic = new Epic(title, description);
                 epic.setId(id);
                 epic.setStatus(status);
-                super.addEpic(epic);
+                super.loadEpic(epic);
                 return true;
             }
         }
