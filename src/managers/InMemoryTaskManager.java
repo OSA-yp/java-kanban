@@ -1,5 +1,6 @@
 package managers;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import tasks.*;
@@ -22,6 +23,13 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Task> getTasks() {
 
         return new ArrayList<>(tasks.values());
+    }
+
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        // TODO Можно хранить все задачи заранее отсортированными с помощью класса TreeSet.
+        // Дата начала задачи по каким-то причинам может быть не задана. Тогда при добавлении её не следует учитывать в списке задач и подзадач, отсортированных по времени начала.
+        return List.of();
     }
 
     @Override
@@ -99,6 +107,8 @@ public class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(id);
         historyManager.add(task);
         return task;
+
+        // TODO Используйте тип Optional, чтобы возвращать результат методов поиска задачи/подзадачи по id.
     }
 
     @Override
@@ -106,6 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
         SubTask subTask = subTasks.get(id);
         historyManager.add(subTask);
         return subTask;
+        // TODO Используйте тип Optional, чтобы возвращать результат методов поиска задачи/подзадачи по id.
     }
 
     @Override
@@ -113,19 +124,26 @@ public class InMemoryTaskManager implements TaskManager {
 
         Epic epic = epics.get(id);
         historyManager.add(epic);
-
+        // TODO Используйте тип Optional, чтобы возвращать результат методов поиска задачи/подзадачи по id.
         return epic;
     }
 
     //    d. Создание. Сам объект должен передаваться в качестве параметра.
     @Override
     public void addTask(Task newTask) {
+
+        // TODO Подумайте, какая структура данных и какой алгоритм проверки подойдут,
+        //  чтобы уменьшить сложность поиска пересечений до 0(1) (см подсказку в ТЗ)
+
         if (newTask == null) {
             return;
         }
         newTask.setId(nextTaskId);
         tasks.put(newTask.getId(), newTask);
         nextTaskId++;
+
+        //TODO  В методе add выполните проверку, пересекается ли добавляемая задача с любой другой в списке менеджера.
+        // Для этого используйте Stream API и метод, который вы реализовали в предыдущем пункте.
     }
 
     @Override
@@ -157,6 +175,30 @@ public class InMemoryTaskManager implements TaskManager {
 
         // обновляем статус родительского эпика
         refreshEpicStatus(parentEpic);
+
+        // обновляем временные параметры родительского эпика
+        refreshEpicTimeParams(parentEpic);
+    }
+
+    private void refreshEpicTimeParams(Epic parentEpic) {
+        long durationSum = 0;
+        LocalDateTime minStartTime = parentEpic.getStartTime();
+        LocalDateTime maxEndTime = parentEpic.getEndTime();
+
+        for (Task subTask : subTasks.values()) {
+            durationSum += subTask.getDuration();
+            if  (minStartTime.isAfter(subTask.getStartTime())) {
+                minStartTime = subTask.getStartTime();
+            }
+            if (maxEndTime.isBefore(subTask.getEndTime())) {
+                maxEndTime = subTask.getEndTime();
+            }
+        }
+
+        parentEpic.setStartTime(minStartTime);
+        parentEpic.setDuration(durationSum);
+        parentEpic.setEndTime(maxEndTime);
+
     }
 
 
@@ -256,6 +298,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         ArrayList<SubTask> epicSubTasks = new ArrayList<>();
         if (epic != null) {
+            // TODO Меняем циклы на Stream API, не только тут,а во всех foreach
             for (
                     Integer id : epic.getSubTasksIds()
             ) {

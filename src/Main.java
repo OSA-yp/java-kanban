@@ -1,6 +1,8 @@
 import managers.*;
 import tasks.*;
 
+import java.time.LocalDateTime;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -15,8 +17,8 @@ public class Main {
 
 
         // 1. Создайте две задачи, эпик с тремя подзадачами и эпик без подзадач.
-        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW);
-        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW);
+        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now(), 5);
+        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now().minusHours(1), 15);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
@@ -26,9 +28,9 @@ public class Main {
 
         Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
         taskManager.addEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
+        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now(), 60, epic1.getId());
+        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now().minusMinutes(100), 15, epic1.getId());
+        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW,LocalDateTime.now().minusMinutes(15), 5, epic1.getId());
         taskManager.addSubTask(subTask1);
         taskManager.addSubTask(subTask2);
         taskManager.addSubTask(subTask3);

@@ -1,16 +1,24 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Task {
     private Integer id;
     private String title;
     private String description;
     private TaskStatus status;
+    private Duration duration;
+    private LocalDateTime startTime;
 
-    public Task(String title, String description, TaskStatus status) {
+
+    public Task(String title, String description, TaskStatus status, LocalDateTime startTime, long durationInMins) {
         this.title = title;
         this.description = description;
         this.status = status;
-
+        this.duration = Duration.ofMinutes(durationInMins);
+        this.startTime = startTime;
     }
 
     public Integer getId() {
@@ -36,6 +44,8 @@ public class Task {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
+                ", startTime=" + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
+                ", duration=" + duration +
                 '}';
     }
 
@@ -68,5 +78,25 @@ public class Task {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getEndTime(){
+        return startTime.plus(duration);
+    }
+
+    public long getDuration() {
+        return duration.toMinutes();
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = Duration.ofMinutes(duration);
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 }

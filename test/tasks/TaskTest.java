@@ -3,14 +3,18 @@ package tasks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskTest {
     Task task1;
 
+    // TODO новые поля
+
     @BeforeEach
     void setUp(){
-        task1 = new Task("title", "description", TaskStatus.NEW);
+        task1 = new Task("title", "description", TaskStatus.NEW, 60, LocalDateTime.now());
     }
 
     @Test
