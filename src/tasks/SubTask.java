@@ -8,7 +8,7 @@ public class SubTask extends Task {
 
     private final Integer parentEpicId;
 
-    public SubTask(String title, String description, TaskStatus status, LocalDateTime startTime, long durationInMins, Integer parentEpicId ) {
+    public SubTask(String title, String description, TaskStatus status, LocalDateTime startTime, long durationInMins, Integer parentEpicId) {
         super(title, description, status, startTime, durationInMins);
         this.parentEpicId = parentEpicId;
     }
