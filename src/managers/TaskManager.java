@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 public interface TaskManager {
     List<Task> getTasks();
+
     TreeSet<Task> getPrioritizedTasks();
 
     List<Epic> getEpics();
