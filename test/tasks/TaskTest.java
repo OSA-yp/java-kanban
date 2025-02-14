@@ -12,8 +12,8 @@ public class TaskTest {
     Task task1;
 
     @BeforeEach
-    void setUp(){
-        task1 = new Task("title", "description", TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:25", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),60 );
+    void setUp() {
+        task1 = new Task("title", "description", TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:25", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), 60);
     }
 
     @Test
