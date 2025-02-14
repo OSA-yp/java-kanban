@@ -5,7 +5,10 @@ import exceptions.ManagerSaveException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import tasks.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskManager> {
+public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @Test
     void emptyFileTest() throws IOException {
@@ -24,7 +27,7 @@ public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskMa
         List<tasks.Task> list = new ArrayList<>();
         List<Task> listFromFile = taskManager.getTasks();
 
-        assertEquals(list,  listFromFile);
+        assertEquals(list, listFromFile);
     }
 
     @Test
@@ -46,18 +49,18 @@ public class FileBackedTaskManagerTest extends  TaskManagerTest<FileBackedTaskMa
 
     @Test
     public void testException() throws IOException {
-//        File file = File.createTempFile("tasks", null);
-//        assertThrows(ManagerLoadException.class, () -> {
-//
-//            file.delete();
-//            TaskManager taskManager = new FileBackedTaskManager(file);
-//        }, "Загрузка из файла " + file.getName() + " не удалась");
 
         File file = File.createTempFile("tasks", null);
+
+        try (Writer fileWriter = new FileWriter(file, StandardCharsets.UTF_8, false)) {
+
+            fileWriter.write("id,type,name,status,description,epic"+ "\n");
+            fileWriter.write("2,TASK,Задача номер два,INVALID,Это вторая  тестовая задача для теста,2025-02-14T18:06:55.641439400,15,"+ "\n");
+        }
+
         try {
             // Тестируем, что исключение будет выброшено
             assertThrows(ManagerLoadException.class, () -> {
-                file.delete();
                 TaskManager taskManager = new FileBackedTaskManager(file); // Здесь должно быть выброшено исключение
             }, "Загрузка из файла " + file.getName() + " не удалась");
         } finally {

@@ -97,10 +97,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private void loadFromFile(File file) {
 
-        // Проверка убрана для того чтобы тест из ТЗ про исключения мог сработать
-//        if (!file.exists()) {
-//            return;
-//        }
+        if (!file.exists()) {
+            return;
+        }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {
@@ -112,11 +111,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
                 }
             }
-        } catch (FileNotFoundException e) {
-            // При ошибке с файлом, выбрасываем нужное для теста исключение
-            //throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
-        } catch (IOException e) {
-            // Другие IO ошибки, выбрасываем аналогичное исключение
+        } catch (Exception e) {  // Exception используется для теста
+
             throw new ManagerLoadException("Ошибка при чтении файла " + file.getName());
         }
 
