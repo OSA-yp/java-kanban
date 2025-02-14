@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Task {
+public class Task implements Comparable<Task> {
     private Integer id;
     private String title;
     private String description;
@@ -45,7 +45,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", startTime=" + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
-                ", duration=" + duration +
+                ", duration=" + duration.toMinutes() +
                 '}';
     }
 
@@ -98,5 +98,15 @@ public class Task {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        int result = this.getStartTime().compareTo(o.getStartTime());
+        if (result == 0) {
+            result = this.getId().compareTo(o.getId()); // если время совпадает, то сортировка по id
+        };
+
+        return result;
     }
 }

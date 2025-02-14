@@ -3,6 +3,8 @@ package tasks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +52,8 @@ class EpicTest {
     void testToString() {
         epic1.setId(100);
         epic1.addSubTask(1);
+        epic1.setStartTime(LocalDateTime.parse("13.02.2025 20:46", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
 
-        assertEquals("Task.Epic{id=100, title='title', description='description', status=NEW', subTasks IDs=[1]}", epic1.toString());
+        assertEquals("Task.Epic{id=100, title='title', description='description', status=NEW', startTime=13.02.2025 20:46, duration=0, subTasks IDs=[1]}", epic1.toString());
     }
 }

@@ -8,7 +8,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
@@ -16,7 +17,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private ArrayList<SubTask> loadedSubTasks = new ArrayList<>();
 
-    public FileBackedTaskManager(File file) {
+    public FileBackedTaskManager(File file) throws IOException {
         super();
         this.file = file;
         loadFromFile(this.file);
@@ -38,7 +39,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
         stringsToWrite.add("id,type,name,status,description,epic\n");
 
-// TODO новые поля про время
         for (Task task : super.getTasks()
         ) {
             stringsToWrite.add(taskToString(task, TasksType.TASK) + "\n");
@@ -95,12 +95,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
 
-    private void loadFromFile(File file) {
+    private void loadFromFile(File file) throws IOException {
 
-
-        if (!file.exists()) {
-            return;
-        }
+        // Проверка убрана для того чтобы тест из ТЗ про исключения мог сработать
+//        if (!file.exists()) {
+//            return;
+//        }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {
@@ -112,15 +112,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
                 }
             }
-        } catch (IOException | ManagerLoadException e) {
-            System.out.println("Во время загрузки файла произошла ошибка");
+        } catch (FileNotFoundException e) {
+            // При ошибке с файлом, выбрасываем нужное для теста исключение
+            throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
+        } catch (IOException e) {
+            // Другие IO ошибки, выбрасываем аналогичное исключение
+            throw new ManagerLoadException("Ошибка при чтении файла " + file.getName());
         }
+
 
         // линкуем подзадачи и эпики после всей загрузки, чтобы не зависеть от порядка subTask/epic
         for (SubTask subtask : loadedSubTasks
         ) {
-            Epic epic = super.getEpicById(subtask.getParentEpicId());
-            epic.addSubTask(subtask.getId());
+            Optional<Epic> epic = super.getEpicById(subtask.getParentEpicId());
+            epic.ifPresent(value -> value.addSubTask(subtask.getId()));
+
         }
 
     }
@@ -155,7 +161,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 return true;
             }
             case SUBTASK: {
-                SubTask subTask = new SubTask(title, description, status, startTime, duration,  subTaskParenEpic);
+                SubTask subTask = new SubTask(title, description, status, startTime, duration, subTaskParenEpic);
                 subTask.setId(id);
                 super.loadSubTask(subTask);
                 loadedSubTasks.add(subTask);
@@ -174,9 +180,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
 
     @Override
-    public List<Task> getPrioritizedTasks() {
-        // TODO getPrioritizedTasks Можно хранить все задачи заранее отсортированными с помощью класса TreeSet.
-        // подумать нужно ли хранить их в файле, вряд ли.
+    public TreeSet<Task> getPrioritizedTasks() {
         return super.getPrioritizedTasks();
     }
 
@@ -205,23 +209,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void addTask(Task newTask) {
-        super.addTask(newTask);
+    public int addTask(Task newTask) {
+        int result = super.addTask(newTask);
         saveToFile();
 
-
+        return result;
     }
 
     @Override
-    public void addEpic(Epic newEpic) {
-        super.addEpic(newEpic);
+    public int addEpic(Epic newEpic) {
+        int result = super.addEpic(newEpic);
         saveToFile();
+        return result;
     }
 
     @Override
-    public void addSubTask(SubTask newSubTask) {
-        super.addSubTask(newSubTask);
+    public int addSubTask(SubTask newSubTask) {
+        int result = super.addSubTask(newSubTask);
         saveToFile();
+
+        return result;
     }
 
     @Override
@@ -270,8 +277,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     public static void main(String[] args) {
 
-        // TODO Решить что с этим делать, стоит ли оставлять, либо поменять на новый тест
-
         File file = new File(Managers.TASKS_FILE_NAME); // для целей тестирования удаляется предыдущий файл, если есть
         if (file.exists()) {
             file.delete();
@@ -286,15 +291,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         TaskManager taskManager = Managers.getDefault();
 
         //Заведите несколько разных задач, эпиков и подзадач.
-        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now().minusMinutes(60), 60);
-        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now(), 15);
+        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now(), 60);
+        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now().minusMinutes(60), 15);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 
         Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
         taskManager.addEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW,LocalDateTime.now(), 15, epic1.getId());
+        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now(), 15, epic1.getId());
         SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.DONE, LocalDateTime.now(), 10, epic1.getId());
         SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.IN_PROGRESS, LocalDateTime.now().minusMinutes(45), 15, epic1.getId());
         taskManager.addSubTask(subTask1);
@@ -307,14 +312,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         System.out.println("Задач:" + taskManager.getTasks().size() + taskManager.getTasks());
 
 
-        //Создайте новый FileBackedTaskManager-менеджер из этого же файла.
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(new File("tasksdb.csv"));
+        System.out.println("======================= сортировка =======================");
+        taskManager.getPrioritizedTasks().forEach(System.out::println);
 
 
-        //Проверьте, что все задачи, эпики, подзадачи, которые были в старом менеджере, есть в новом.
-        System.out.println("======================= второй менеджер =======================");
-        System.out.println("Эпиков:" + fileBackedTaskManager.getEpics().size() + fileBackedTaskManager.getEpics());
-        System.out.println("Подзадач:" + fileBackedTaskManager.getSubTasks().size() + fileBackedTaskManager.getSubTasks());
-        System.out.println("Задач:" + fileBackedTaskManager.getTasks().size() + fileBackedTaskManager.getTasks());
     }
 }

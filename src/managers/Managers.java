@@ -1,6 +1,7 @@
 package managers;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Managers {
 
@@ -8,7 +9,15 @@ public class Managers {
 
     static InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
     static InMemoryTaskManager taskInMemoryManager = new InMemoryTaskManager();
-    static FileBackedTaskManager taskFileBackedManager = new FileBackedTaskManager(new File(TASKS_FILE_NAME));
+    static FileBackedTaskManager taskFileBackedManager;
+
+    static {
+        try {
+            taskFileBackedManager = new FileBackedTaskManager(new File(TASKS_FILE_NAME));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static TaskManager getDefault() {
         return taskFileBackedManager;
