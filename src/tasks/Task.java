@@ -80,7 +80,7 @@ public class Task implements Comparable<Task> {
         this.status = status;
     }
 
-    public LocalDateTime getEndTime(){
+    public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }
 
@@ -105,7 +105,7 @@ public class Task implements Comparable<Task> {
         int result = this.getStartTime().compareTo(o.getStartTime());
         if (result == 0) {
             result = this.getId().compareTo(o.getId()); // если время совпадает, то сортировка по id
-        };
+        }
 
         return result;
     }
