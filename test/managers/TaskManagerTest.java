@@ -315,15 +315,15 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getPrioritizedTasksTest(){
+    void getPrioritizedTasksTest() {
         Task task1 = new Task("title", "description", TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:25", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), 15);
 
         Task task2 = new Task("title", "description", TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:25", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), 5);
 
         taskManager.addTask(task1);
-        int task2Id =  taskManager.addTask(task2);
+        int task2Id = taskManager.addTask(task2);
 
-        assertEquals(-1 ,task2Id);
+        assertEquals(-1, task2Id);
     }
 
 

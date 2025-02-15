@@ -35,7 +35,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         optionalTask.ifPresent(list::add);
 
 
-        Task task2 = new Task("title", "description", TaskStatus.NEW,LocalDateTime.now().plusMinutes(10), 15);
+        Task task2 = new Task("title", "description", TaskStatus.NEW, LocalDateTime.now().plusMinutes(10), 15);
         taskManager.addTask(task2);
         Optional<Task> optionalTask2 = taskManager.getTaskById(2);
         optionalTask2.ifPresent(list::add);

@@ -13,8 +13,8 @@ class SubTaskTest {
     SubTask subTask;
 
     @BeforeEach
-    void setUp(){
-        subTask = new SubTask("title", "description",TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:47", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), 5,999);
+    void setUp() {
+        subTask = new SubTask("title", "description", TaskStatus.NEW, LocalDateTime.parse("13.02.2025 20:47", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), 5, 999);
     }
 
 

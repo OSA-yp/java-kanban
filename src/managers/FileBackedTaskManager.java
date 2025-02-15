@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
 
@@ -21,6 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super();
         this.file = file;
         loadFromFile(this.file);
+        super.sortTasks();
     }
 
 
@@ -67,6 +69,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private String taskToString(Task task, TasksType type) {
         StringBuilder result = new StringBuilder();
+        String startTime;
+        if (task.getStartTime() == null) {
+            startTime = "null";
+        } else {
+            startTime = task.getStartTime().toString();
+        }
 
         result.append(task.getId());                // 0
         result.append(",");
@@ -78,7 +86,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         result.append(",");
         result.append(task.getDescription());       // 4
         result.append(",");
-        result.append(task.getStartTime().toString()); // 5
+        result.append(startTime); // 5
         result.append(",");
         result.append(task.getDuration());          // 6
         result.append(",");
@@ -137,7 +145,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         String title = items[2];
         TaskStatus status = TaskStatus.valueOf(items[3]);
         String description = items[4];
-        LocalDateTime startTime = LocalDateTime.parse(items[5]);
+        LocalDateTime startTime;
+        if (Objects.equals(items[5], "null")) {
+            startTime = null;
+        } else {
+            startTime = LocalDateTime.parse(items[5]);
+        }
+
         long duration = Long.parseLong(items[6]);
         Integer subTaskParenEpic = null;
         if (items.length > 7) {

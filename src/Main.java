@@ -2,16 +2,14 @@ import managers.*;
 import tasks.*;
 
 import java.time.LocalDateTime;
+import java.util.TreeSet;
 
 public class Main {
     public static void main(String[] args) {
 
-
         // Дополнительное задание. Реализуем пользовательский сценарий
 
-
         // тестирование Managers.TaskManager
-
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
@@ -30,7 +28,7 @@ public class Main {
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now(), 60, epic1.getId());
         SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now().minusMinutes(100), 15, epic1.getId());
-        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW,LocalDateTime.now().minusMinutes(15), 5, epic1.getId());
+        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now().minusMinutes(15), 5, epic1.getId());
         taskManager.addSubTask(subTask1);
         taskManager.addSubTask(subTask2);
         taskManager.addSubTask(subTask3);
@@ -45,7 +43,6 @@ public class Main {
 
         Integer epic2Id = epic2.getId();
         printHistory(historyManager);
-
 
 
         System.out.println("Запросите созданные задачи несколько раз в разном порядке:");

@@ -21,6 +21,14 @@ public class Task implements Comparable<Task> {
         this.startTime = startTime;
     }
 
+    public Task(String title, String description, TaskStatus status) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.duration = null;
+        this.startTime = null;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -102,6 +110,16 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(Task o) {
+        if (this.getStartTime() == null) {
+            return -1;
+        }
+        if (o.getStartTime() == null) {
+            return 1;
+        }
+        if (this.getStartTime() == null && o.getStartTime() == null) {
+            return 0;
+        }
+
         int result = this.getStartTime().compareTo(o.getStartTime());
         if (result == 0) {
             result = this.getId().compareTo(o.getId()); // если время совпадает, то сортировка по id

@@ -14,7 +14,7 @@ class EpicTest {
     Epic epic1;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         epic1 = new Epic("title", "description");
     }
 

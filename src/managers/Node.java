@@ -2,6 +2,7 @@ package managers;
 
 import tasks.Task;
 
+// узел для хранения истории обращения к таскам
 public class Node {
     private Task data;
     private Node next;

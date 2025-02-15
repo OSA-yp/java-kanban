@@ -54,8 +54,8 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
         try (Writer fileWriter = new FileWriter(file, StandardCharsets.UTF_8, false)) {
 
-            fileWriter.write("id,type,name,status,description,epic"+ "\n");
-            fileWriter.write("2,TASK,Задача номер два,INVALID,Это вторая  тестовая задача для теста,2025-02-14T18:06:55.641439400,15,"+ "\n");
+            fileWriter.write("id,type,name,status,description,epic" + "\n");
+            fileWriter.write("2,TASK,Задача номер два,INVALID,Это вторая  тестовая задача для теста,2025-02-14T18:06:55.641439400,15," + "\n");
         }
 
         try {
