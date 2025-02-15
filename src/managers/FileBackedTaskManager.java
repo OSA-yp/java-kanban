@@ -6,7 +6,11 @@ import tasks.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.TreeSet;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
@@ -14,10 +18,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private ArrayList<SubTask> loadedSubTasks = new ArrayList<>();
 
-    public FileBackedTaskManager(File file) {
+    public FileBackedTaskManager(File file) throws IOException {
         super();
         this.file = file;
         loadFromFile(this.file);
+        super.sortTasks();
     }
 
 
@@ -35,7 +40,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             }
         }
         stringsToWrite.add("id,type,name,status,description,epic\n");
-
 
         for (Task task : super.getTasks()
         ) {
@@ -65,16 +69,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private String taskToString(Task task, TasksType type) {
         StringBuilder result = new StringBuilder();
+        String startTime;
+        if (task.getStartTime() == null) {
+            startTime = "null";
+        } else {
+            startTime = task.getStartTime().toString();
+        }
 
-        result.append(task.getId());
+        result.append(task.getId());                // 0
         result.append(",");
-        result.append(type.toString());
+        result.append(type.toString());             // 1
         result.append(",");
-        result.append(task.getTitle());
+        result.append(task.getTitle());             // 2
         result.append(",");
-        result.append(task.getStatus().toString());
+        result.append(task.getStatus().toString()); // 3
         result.append(",");
-        result.append(task.getDescription());
+        result.append(task.getDescription());       // 4
+        result.append(",");
+        result.append(startTime); // 5
+        result.append(",");
+        result.append(task.getDuration());          // 6
         result.append(",");
 
         return result.toString();
@@ -91,7 +105,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private void loadFromFile(File file) {
 
-
         if (!file.exists()) {
             return;
         }
@@ -106,15 +119,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     throw new ManagerLoadException("Загрузка из файла " + file.getName() + " не удалась");
                 }
             }
-        } catch (IOException | ManagerLoadException e) {
-            System.out.println("Во время загрузки файла произошла ошибка");
+        } catch (Exception e) {  // Exception используется для теста
+
+            throw new ManagerLoadException("Ошибка при чтении файла " + file.getName());
         }
+
 
         // линкуем подзадачи и эпики после всей загрузки, чтобы не зависеть от порядка subTask/epic
         for (SubTask subtask : loadedSubTasks
         ) {
-            Epic epic = super.getEpicById(subtask.getParentEpicId());
-            epic.addSubTask(subtask.getId());
+            Optional<Epic> epic = super.getEpicById(subtask.getParentEpicId());
+            epic.ifPresent(value -> value.addSubTask(subtask.getId()));
+
         }
 
     }
@@ -129,9 +145,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         String title = items[2];
         TaskStatus status = TaskStatus.valueOf(items[3]);
         String description = items[4];
+        LocalDateTime startTime;
+        if (Objects.equals(items[5], "null")) {
+            startTime = null;
+        } else {
+            startTime = LocalDateTime.parse(items[5]);
+        }
+
+        long duration = Long.parseLong(items[6]);
         Integer subTaskParenEpic = null;
-        if (items.length > 5) {
-            subTaskParenEpic = Integer.valueOf(items[5]);
+        if (items.length > 7) {
+            subTaskParenEpic = Integer.valueOf(items[7]);
 
         }
         // update следующего id в taskManager
@@ -141,13 +165,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
         switch (type) {
             case TASK: {
-                Task task = new Task(title, description, status);
+                Task task = new Task(title, description, status, startTime, duration);
                 task.setId(id);
                 super.loadTask(task);
                 return true;
             }
             case SUBTASK: {
-                SubTask subTask = new SubTask(title, description, status, subTaskParenEpic);
+                SubTask subTask = new SubTask(title, description, status, startTime, duration, subTaskParenEpic);
                 subTask.setId(id);
                 super.loadSubTask(subTask);
                 loadedSubTasks.add(subTask);
@@ -164,6 +188,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return false;
     }
 
+
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return super.getPrioritizedTasks();
+    }
 
     @Override
     public void removeAllTypesOfTasks() {
@@ -190,21 +219,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void addTask(Task newTask) {
-        super.addTask(newTask);
+    public int addTask(Task newTask) {
+        int result = super.addTask(newTask);
         saveToFile();
+
+        return result;
     }
 
     @Override
-    public void addEpic(Epic newEpic) {
-        super.addEpic(newEpic);
+    public int addEpic(Epic newEpic) {
+        int result = super.addEpic(newEpic);
         saveToFile();
+        return result;
     }
 
     @Override
-    public void addSubTask(SubTask newSubTask) {
-        super.addSubTask(newSubTask);
+    public int addSubTask(SubTask newSubTask) {
+        int result = super.addSubTask(newSubTask);
         saveToFile();
+
+        return result;
     }
 
     @Override
@@ -267,17 +301,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         TaskManager taskManager = Managers.getDefault();
 
         //Заведите несколько разных задач, эпиков и подзадач.
-        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW);
-        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW);
+        Task task1 = new Task("Задача номер 1", "Это 1я  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now(), 60);
+        Task task2 = new Task("Задача номер два", "Это вторая  тестовая задача для теста", TaskStatus.NEW, LocalDateTime.now().minusMinutes(60), 15);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 
         Epic epic1 = new Epic("Мой первый эпик", "Этот эпик будет содержать задачи для тестирования");
         taskManager.addEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, epic1.getId());
-        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.DONE, epic1.getId());
-        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.IN_PROGRESS, epic1.getId());
+        SubTask subTask1 = new SubTask("Подзадача номер 1", "Это первая тестовая подзадача она входит в эпик 1", TaskStatus.NEW, LocalDateTime.now(), 15, epic1.getId());
+        SubTask subTask2 = new SubTask("Подзадача  номер два", "Это 2я  тестовая подзадача она входит в эпик 1", TaskStatus.DONE, LocalDateTime.now(), 10, epic1.getId());
+        SubTask subTask3 = new SubTask("Подзадача  номер 3", "Это 3я  тестовая подзадача она входит в эпик 1", TaskStatus.IN_PROGRESS, LocalDateTime.now().minusMinutes(45), 15, epic1.getId());
         taskManager.addSubTask(subTask1);
         taskManager.addSubTask(subTask2);
         taskManager.addSubTask(subTask3);
@@ -288,14 +322,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         System.out.println("Задач:" + taskManager.getTasks().size() + taskManager.getTasks());
 
 
-        //Создайте новый FileBackedTaskManager-менеджер из этого же файла.
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(new File("tasksdb.csv"));
+        System.out.println("======================= сортировка =======================");
+        taskManager.getPrioritizedTasks().forEach(System.out::println);
 
 
-        //Проверьте, что все задачи, эпики, подзадачи, которые были в старом менеджере, есть в новом.
-        System.out.println("======================= второй менеджер =======================");
-        System.out.println("Эпиков:" + fileBackedTaskManager.getEpics().size() + fileBackedTaskManager.getEpics());
-        System.out.println("Подзадач:" + fileBackedTaskManager.getSubTasks().size() + fileBackedTaskManager.getSubTasks());
-        System.out.println("Задач:" + fileBackedTaskManager.getTasks().size() + fileBackedTaskManager.getTasks());
     }
 }

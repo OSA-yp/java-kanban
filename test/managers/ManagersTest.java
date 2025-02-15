@@ -30,4 +30,5 @@ class ManagersTest {
     void testOfGettingHistory() {
         assertEquals(inMemoryHistoryManager.getClass(), Managers.getDefaultHistory().getClass());
     }
+
 }

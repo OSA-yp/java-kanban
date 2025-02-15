@@ -3,9 +3,13 @@ package managers;
 import tasks.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 
 public interface TaskManager {
     List<Task> getTasks();
+
+    TreeSet<Task> getPrioritizedTasks();
 
     List<Epic> getEpics();
 
@@ -25,18 +29,18 @@ public interface TaskManager {
     void removeAllSubTasks();
 
     //    c. Получение по идентификатору.
-    Task getTaskById(Integer id);
+    Optional<Task> getTaskById(Integer id);
 
-    SubTask getSubTaskById(Integer id);
+    Optional<SubTask> getSubTaskById(Integer id);
 
-    Epic getEpicById(Integer id);
+    Optional<Epic> getEpicById(Integer id);
 
     //    d. Создание. Сам объект должен передаваться в качестве параметра.
-    void addTask(Task newTask);
+    int addTask(Task newTask);
 
-    void addEpic(Epic newEpic);
+    int addEpic(Epic newEpic);
 
-    void addSubTask(SubTask newSubTask);
+    int addSubTask(SubTask newSubTask);
 
     //    e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     boolean updateTask(Task task);
