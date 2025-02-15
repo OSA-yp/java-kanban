@@ -265,7 +265,7 @@ public class InMemoryTaskManager implements TaskManager {
             return false;
         }
 
-        sortedTasks.remove(task);
+        sortedTasks.remove(tasks.get(task.getId()));
         tasks.put(task.getId(), task);
         sortedTasks.add(task);
 
@@ -296,7 +296,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (hasIntersection(subTask)) {
             return false;
         }
-        sortedTasks.remove(subTask);
+        sortedTasks.remove(subTasks.get(subTask.getId()));
         subTasks.put(subTask.getId(), subTask);
         sortedTasks.add(subTask);
 
