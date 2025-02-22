@@ -323,7 +323,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.addTask(task1);
         int task2Id = taskManager.addTask(task2);
 
-        assertEquals(-1, task2Id);
+        assertEquals(-2, task2Id);
     }
 
 

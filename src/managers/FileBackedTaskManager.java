@@ -129,7 +129,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         for (SubTask subtask : loadedSubTasks
         ) {
             Optional<Epic> epic = super.getEpicById(subtask.getParentEpicId());
-            epic.ifPresent(value -> value.addSubTask(subtask.getId()));
+            if (epic.isPresent()) {
+                epic.get().addSubTask(subtask.getId());
+                refreshEpicTimeParams(epic.get());
+            }
+
 
         }
 
@@ -242,44 +246,44 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public boolean updateTask(Task task) {
-        Boolean res = super.updateTask(task);
+    public int updateTask(Task task) {
+        int res = super.updateTask(task);
         saveToFile();
         return res;
 
     }
 
     @Override
-    public boolean updateEpic(Epic epic) {
-        Boolean res = super.updateEpic(epic);
+    public int updateEpic(Epic epic) {
+        int res = super.updateEpic(epic);
         saveToFile();
         return res;
     }
 
     @Override
-    public boolean updateSubTask(SubTask subTask) {
-        Boolean res = super.updateSubTask(subTask);
+    public int updateSubTask(SubTask subTask) {
+        int res = super.updateSubTask(subTask);
         saveToFile();
         return res;
     }
 
     @Override
-    public boolean removeTaskById(Integer id) {
-        Boolean res = super.removeTaskById(id);
+    public int removeTaskById(Integer id) {
+        int res = super.removeTaskById(id);
         saveToFile();
         return res;
     }
 
     @Override
-    public boolean removeEpicById(Integer id) {
-        Boolean res = super.removeEpicById(id);
+    public int removeEpicById(Integer id) {
+        int res = super.removeEpicById(id);
         saveToFile();
         return res;
     }
 
     @Override
-    public boolean removeSubTaskById(Integer id) {
-        Boolean res = super.removeSubTaskById(id);
+    public int removeSubTaskById(Integer id) {
+        int res = super.removeSubTaskById(id);
         saveToFile();
         return res;
     }
