@@ -49,10 +49,12 @@ public class HttpTaskServer {
 
     public void start() {
         server.start();
+        System.out.println("TaskServer is started");
     }
 
     public void stop() {
         server.stop(0);
+        System.out.println("TaskServer is stoped");
     }
 
 
@@ -61,7 +63,7 @@ public class HttpTaskServer {
         TaskManager tm = Managers.getDefault();
         HttpTaskServer taskServer = new HttpTaskServer(tm);
         taskServer.start();
-        System.out.println("TaskServer is started");
+
 
 
     }
