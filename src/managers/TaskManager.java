@@ -1,6 +1,8 @@
 package managers;
 
-import tasks.*;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,18 +45,18 @@ public interface TaskManager {
     int addSubTask(SubTask newSubTask);
 
     //    e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    boolean updateTask(Task task);
+    int updateTask(Task task);
 
-    boolean updateEpic(Epic epic);
+    int updateEpic(Epic epic);
 
-    boolean updateSubTask(SubTask subTask);
+    int updateSubTask(SubTask subTask);
 
     //    f. Удаление по идентификатору.
-    boolean removeTaskById(Integer id);
+    int removeTaskById(Integer id);
 
-    boolean removeEpicById(Integer id);
+    int removeEpicById(Integer id);
 
-    boolean removeSubTaskById(Integer id);
+    int removeSubTaskById(Integer id);
 
     // a. Получение списка всех подзадач определённого эпика.
     List<SubTask> getSubtaskByEpicId(int epicId);

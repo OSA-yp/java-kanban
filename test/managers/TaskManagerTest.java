@@ -1,6 +1,5 @@
 package managers;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
@@ -11,8 +10,6 @@ import tasks.TaskStatus;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -323,7 +320,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.addTask(task1);
         int task2Id = taskManager.addTask(task2);
 
-        assertEquals(-1, task2Id);
+        assertEquals(-2, task2Id);
     }
 
 
