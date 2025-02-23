@@ -3,9 +3,9 @@ package ws.handlers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import exceptions.NotFoundException;
 import managers.TaskManager;
 import tasks.Task;
-import ws.HttpTaskServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +14,13 @@ import java.util.Optional;
 
 public class TasksHandler extends BaseHttpHandler implements HttpHandler {
 
-    private final TaskManager tm = HttpTaskServer.getTaskManager();
+    private final TaskManager tm;
     private final Gson gson;
 
-    public TasksHandler(Gson gson) {
+    public TasksHandler(Gson gson, TaskManager tm) {
         super();
         this.gson = gson;
+        this.tm = tm;
     }
 
     @Override
@@ -34,12 +35,14 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
                     sendText(exchange, text);
                 } else {
                     int id = Integer.parseInt(path[2]);
-                    Optional<Task> mayBeTask = tm.getTaskById(id);
-                    if (mayBeTask.isPresent()) {
-                        sendText(exchange, gson.toJson(mayBeTask.get()));
-                    } else {
+                    Task task = null;
+                    try {
+                        Optional<Task> mayBeTask = tm.getTaskById(id);
+                        task = mayBeTask.get();
+                    } catch (NotFoundException e) {
                         sendNotFound(exchange, "Task with id=" + id + " not found");
                     }
+                    sendText(exchange, gson.toJson(task));
                 }
                 break;
             case "POST":

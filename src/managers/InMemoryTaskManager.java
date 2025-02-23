@@ -1,9 +1,13 @@
 package managers;
 
+import exceptions.NotFoundException;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import tasks.TaskStatus;
+
 import java.time.LocalDateTime;
 import java.util.*;
-
-import tasks.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Task> tasks = new HashMap<>();
@@ -119,15 +123,22 @@ public class InMemoryTaskManager implements TaskManager {
     public Optional<Task> getTaskById(Integer id) {
         Task task = tasks.get(id);
         historyManager.add(task);
-
-        return Optional.ofNullable(task);
+        if (task == null) {
+            throw new NotFoundException("Task not found");
+        }
+        return Optional.of(task);
     }
 
     @Override
     public Optional<SubTask> getSubTaskById(Integer id) {
         SubTask subTask = subTasks.get(id);
         historyManager.add(subTask);
-        return Optional.ofNullable(subTask);
+
+        if (subTask == null) {
+            throw new NotFoundException("Subtask not found");
+        }
+
+        return Optional.of(subTask);
     }
 
     @Override
@@ -135,7 +146,12 @@ public class InMemoryTaskManager implements TaskManager {
 
         Epic epic = epics.get(id);
         historyManager.add(epic);
-        return Optional.ofNullable(epic);
+
+        if (epic == null) {
+            throw new NotFoundException("Epic not found");
+        }
+
+        return Optional.of(epic);
     }
 
     //    d. Создание. Сам объект должен передаваться в качестве параметра.
@@ -180,13 +196,11 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         // если добавить эпик с несуществующими подзадачами
-        for (int subTaskId: newEpic.getSubTasksIds())
-        {
+        for (int subTaskId : newEpic.getSubTasksIds()) {
             if (!subTasks.containsKey(subTaskId)) {
                 return -2;
             }
         }
-
 
 
         newEpic.setId(nextTaskId);
@@ -290,8 +304,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         // если у эпика несуществующие подзадачами
-        for (int subTaskId: epic.getSubTasksIds())
-        {
+        for (int subTaskId : epic.getSubTasksIds()) {
             if (!subTasks.containsKey(subTaskId)) {
                 return -2;
             }
@@ -354,8 +367,11 @@ public class InMemoryTaskManager implements TaskManager {
         // если удаляется эпик, удаляются и все его задачи
         if (!epic.getSubTasksIds().isEmpty()) {
             epic.getSubTasksIds().forEach(subTaskId -> {
-                sortedTasks.remove(subTasks.get(id));
+
+                sortedTasks.remove(subTasks.get(subTaskId));
+
                 subTasks.remove(subTaskId);
+
                 historyManager.remove(subTaskId);
 
             });

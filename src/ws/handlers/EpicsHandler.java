@@ -3,9 +3,9 @@ package ws.handlers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import exceptions.NotFoundException;
 import managers.TaskManager;
 import tasks.Epic;
-import ws.HttpTaskServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,13 +15,14 @@ import java.util.Optional;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
 
-    private final TaskManager tm = HttpTaskServer.getTaskManager();
+    private final TaskManager tm;
     private final Gson gson;
 
 
-    public EpicsHandler(Gson gson) {
+    public EpicsHandler(Gson gson, TaskManager tm) {
         super();
         this.gson = gson;
+        this.tm = tm;
     }
 
     @Override
@@ -37,12 +38,16 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
                         break;
                     case 3:
                         int id = Integer.parseInt(path[2]);
-                        Optional<Epic> mayBeEpic = tm.getEpicById(id);
-                        if (mayBeEpic.isPresent()) {
-                            sendText(exchange, gson.toJson(mayBeEpic.get()));
-                        } else {
+
+                        Epic epic = null;
+                        try {
+                            Optional<Epic> mayBeEpic = tm.getEpicById(id);
+                            epic = mayBeEpic.get();
+                        } catch (NotFoundException e) {
                             sendNotFound(exchange, "Epic with id=" + id + " not found");
                         }
+                        sendText(exchange, gson.toJson(epic));
+
                         break;
                     case 4:
                         if (Objects.equals(path[3], "subtasks")) {

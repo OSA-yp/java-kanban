@@ -3,9 +3,9 @@ package ws.handlers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import exceptions.NotFoundException;
 import managers.TaskManager;
 import tasks.SubTask;
-import ws.HttpTaskServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,13 +14,14 @@ import java.util.Optional;
 
 public class SubTasksHandler extends BaseHttpHandler implements HttpHandler {
 
-    private final TaskManager tm = HttpTaskServer.getTaskManager();
+    private final TaskManager tm;
     private final Gson gson;
 
 
-    public SubTasksHandler(Gson gson) {
+    public SubTasksHandler(Gson gson, TaskManager tm) {
         super();
         this.gson = gson;
+        this.tm = tm;
     }
 
     @Override
@@ -35,12 +36,15 @@ public class SubTasksHandler extends BaseHttpHandler implements HttpHandler {
                     sendText(exchange, text);
                 } else {
                     int id = Integer.parseInt(path[2]);
-                    Optional<SubTask> mayBeSubTask = tm.getSubTaskById(id);
-                    if (mayBeSubTask.isPresent()) {
-                        sendText(exchange, gson.toJson(mayBeSubTask.get()));
-                    } else {
+                    SubTask subTask = null;
+                    try {
+                        Optional<SubTask> mayBeSubTask = tm.getSubTaskById(id);
+                        subTask = mayBeSubTask.get();
+                    } catch (NotFoundException e) {
                         sendNotFound(exchange, "Subtask with id=" + id + " not found");
                     }
+                    sendText(exchange, gson.toJson(subTask));
+
                 }
                 break;
             case "POST":
